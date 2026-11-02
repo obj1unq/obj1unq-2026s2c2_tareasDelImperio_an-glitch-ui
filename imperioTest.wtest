@@ -2,10 +2,33 @@ import imperio.*
 import habitantes.*
 
 describe "Imperio Inca" {
- 
-  test "Tareas de siembra" {
+
+  test "siembra de papa" {
+    const siempraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+    console.println("=======DESGASTE: "+siempraDePapa.desgaste(4))
+    console.println("=======ESFUERZO: "+siempraDePapa.esfuerzo())
+    console.println("=======TOTAL: "+siempraDePapa.cantRecursosQueProduce(4))
+    
+    assert.equals(180, siempraDePapa.cantRecursosQueProduce(4))
+    //assert.equals(420, siempraDePapa.cantRecursosQueProduce(10))
   }
 
+  test "siembra de maiz en terraza" {
+    const siempraDeMaiz = new SiembraEnTerrazas(esfuerzo = 1.5)
+    assert.equals(900, siempraDeMaiz.cantRecursosQueProduce(5))
+    assert.equals(1125, siempraDeMaiz.cantRecursosQueProduce(7))
+  }
 
+  test "sms común a Tambo Central" {
+    const tamboCentral = new TareaDeMensajeria()
+    assert.equals(210, tamboCentral.cantRecursosQueProduce(4))
+    assert.equals(525, tamboCentral.cantRecursosQueProduce(10))
+  }
+
+  test "sms imperial camino del Sapa Inca" {
+    const sapaInca = new TareaDeMensajeImperial()
+    assert.equals(270, sapaInca.cantRecursosQueProduce(4))
+    assert.equals(810, sapaInca.cantRecursosQueProduce(10))
+  }
 
 }
