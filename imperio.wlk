@@ -1,19 +1,25 @@
 class Tarea{
-    const property esfuerzo
+    //const property esfuerzo
 
 
-    method cantRecursosQueProduce(tiempo) = 50 * (tiempo - self.desgaste(tiempo)) * esfuerzo
+    method cantRecursosQueProduce(tiempo) = 50 * (tiempo - self.desgaste(tiempo)) * self.esfuerzo()
 
-    method desgaste(tiempo) 
+    method desgaste(tiempo)
 
-    //method esfuerzo()
+    method esfuerzo()
 }
 
-class TareaDeSiembra inherits Tarea { // 0.max(1+self.horasPorJornada())
+class TareaDeSiembra inherits Tarea {
+    const property esfuerzo
     //el desgaste es 1 si la jornada es normal y se le suma 1 por cada hora extra. 
-    override method desgaste(tiempo) = 1 + (1*self.horasPorJornada())
+    //override method desgaste(tiempo) = 1 + (1*self.horasPorJornada())
+    override method desgaste(tiempo) = 1 + 0.max(tiempo - self.horasPorJornada(tiempo))
 
-    method horasPorJornada()
+    //method esJornadaNormal() = true
+
+    //method cantPorHorasExtra() = 0.max(self.horasPorJornada())
+
+    method horasPorJornada(tiempo)
 }
 
 class SiembraEnElValle inherits TareaDeSiembra {
@@ -21,13 +27,21 @@ class SiembraEnElValle inherits TareaDeSiembra {
     const property tipoDeEstacion = estacion        //cuando se le quiera cambiar el tipo de estacion, acá no se lo cambia, sino al propio objeto que define el tipo de estación...
 
 
-    //override method horasPorJornada() = if (esMesDeLLuvia){8} else {0}
-    override method horasPorJornada() = tipoDeEstacion.valorPorSiembra()
+    override method cantRecursosQueProduce(tiempo) =
+        if (tipoDeEstacion.valorPorSiembra() == 0) {
+            0
+        } else {
+            super(tiempo)
+        }
+
+    override method horasPorJornada(tiempo) = 8
 }
 
 object estacion {
     var property tipoDeMes = mesesDeSequia
-    const property valorPorSiembra = tipoDeMes.valor()
+
+
+    method valorPorSiembra() = tipoDeMes.valor()
 }
 
 object mesesDeLLuvia {
@@ -41,7 +55,7 @@ object mesesDeSequia {
 }
 
 class SiembraEnTerrazas inherits TareaDeSiembra {
-    override method horasPorJornada() = 6
+    override method horasPorJornada(tiempo) = 6
 
     override method cantRecursosQueProduce(tiempo) = 3*super(tiempo)
 }
@@ -59,5 +73,6 @@ class TareaDeMensajeImperial inherits TareaDeMensajeria {
     override method esfuerzo() = 1.8
 
     //override method desgaste(tiempo) = 1.min(2-(tiempo/4))
-    override method desgaste(tiempo) = 1.min(2-super(tiempo))
+    //override method desgaste(tiempo) = 1.min(2-super(tiempo))
+    override method desgaste(tiempo) = 1.max(super(tiempo) - 2)
 }

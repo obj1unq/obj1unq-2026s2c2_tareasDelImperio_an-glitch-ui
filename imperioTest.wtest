@@ -5,12 +5,10 @@ describe "Imperio Inca" {
 
   test "siembra de papa" {
     const siempraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
-    console.println("=======DESGASTE: "+siempraDePapa.desgaste(4))
-    console.println("=======ESFUERZO: "+siempraDePapa.esfuerzo())
-    console.println("=======TOTAL: "+siempraDePapa.cantRecursosQueProduce(4))
+    //siempraDePapa.esfuerzo(1.2)
     
     assert.equals(180, siempraDePapa.cantRecursosQueProduce(4))
-    //assert.equals(420, siempraDePapa.cantRecursosQueProduce(10))
+    assert.equals(420, siempraDePapa.cantRecursosQueProduce(10))
   }
 
   test "siembra de maiz en terraza" {
