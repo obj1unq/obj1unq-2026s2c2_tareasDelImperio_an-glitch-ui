@@ -2,10 +2,64 @@ import imperio.*
 import habitantes.*
 
 describe "Imperio Inca" {
- 
-  test "Tareas de siembra" {
+
+  test "siembra de papa" {
+    const siempraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+    //siempraDePapa.esfuerzo(1.2)
+    
+    assert.equals(180, siempraDePapa.cantRecursosQueProduce(4))
+    assert.equals(420, siempraDePapa.cantRecursosQueProduce(10))
   }
 
+  test "siembra de maiz en terraza" {
+    const siempraDeMaiz = new SiembraEnTerrazas(esfuerzo = 1.5)
+    assert.equals(900, siempraDeMaiz.cantRecursosQueProduce(5))
+    assert.equals(1125, siempraDeMaiz.cantRecursosQueProduce(7))
+  }
 
+  test "sms común a Tambo Central" {
+    const tamboCentral = new TareaDeMensajeria()
+    assert.equals(210, tamboCentral.cantRecursosQueProduce(4))
+    assert.equals(525, tamboCentral.cantRecursosQueProduce(10))
+  }
 
+  test "sms imperial camino del Sapa Inca" {
+    const sapaInca = new TareaDeMensajeImperial()
+    assert.equals(270, sapaInca.cantRecursosQueProduce(4))
+    assert.equals(810, sapaInca.cantRecursosQueProduce(10))
+  }
+
+  test "Cusi como campesino" {
+    const cusi = new Campesino(energia = 100, horasPorTarea = 4)
+    const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+    const rutaTamboCentral = new TareaDeMensajeria()
+
+    cusi.realizarTarea(siembraDePapa)
+    assert.equals(82, cusi.energia())
+
+    cusi.energia(100)
+    cusi.realizarTarea(rutaTamboCentral)
+    assert.equals(79, cusi.energia())
+  }
+
+  test "Cusi no work" {
+    const cusi = new Campesino(energia = 15, horasPorTarea = 4)
+    const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+
+    assert.throwsException({cusi.realizarTarea(siembraDePapa)})
+    assert.equals(15, cusi.energia())
+  }
+
+  test "Tupac como elite" {
+    const tupac = new Elite(energia = 200)
+    const siembraDeMaizEnTerrazas = new SiembraEnTerrazas(esfuerzo = 1.5)
+    const caminoDelSapaInca = new TareaDeMensajeImperial()
+
+    tupac.realizarTarea(siembraDeMaizEnTerrazas)
+    assert.equals(111.25, tupac.energia())
+
+    tupac.energia(200)
+    tupac.realizarTarea(caminoDelSapaInca)
+    assert.equals(137.5, tupac.energia())
+  }
 }
