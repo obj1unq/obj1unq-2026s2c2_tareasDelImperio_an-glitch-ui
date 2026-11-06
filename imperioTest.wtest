@@ -29,4 +29,37 @@ describe "Imperio Inca" {
     assert.equals(810, sapaInca.cantRecursosQueProduce(10))
   }
 
+  test "Cusi como campesino" {
+    const cusi = new Campesino(energia = 100, horasPorTarea = 4)
+    const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+    const rutaTamboCentral = new TareaDeMensajeria()
+
+    cusi.realizarTarea(siembraDePapa)
+    assert.equals(82, cusi.energia())
+
+    cusi.energia(100)
+    cusi.realizarTarea(rutaTamboCentral)
+    assert.equals(79, cusi.energia())
+  }
+
+  test "Cusi no work" {
+    const cusi = new Campesino(energia = 15, horasPorTarea = 4)
+    const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+
+    assert.throwsException({cusi.realizarTarea(siembraDePapa)})
+    assert.equals(15, cusi.energia())
+  }
+
+  test "Tupac como elite" {
+    const tupac = new Elite(energia = 200)
+    const siembraDeMaizEnTerrazas = new SiembraEnTerrazas(esfuerzo = 1.5)
+    const caminoDelSapaInca = new TareaDeMensajeImperial()
+
+    tupac.realizarTarea(siembraDeMaizEnTerrazas)
+    assert.equals(111.25, tupac.energia())
+
+    tupac.energia(200)
+    tupac.realizarTarea(caminoDelSapaInca)
+    assert.equals(137.5, tupac.energia())
+  }
 }
