@@ -11,7 +11,7 @@ class Persona{
         energia-=self.energiaQuePerderiaAlRealizarLaTarea(tar)
     }
 
-    method energiaQuePerderiaAlRealizarLaTarea(t) = t.cantRecursosQueProduce(self.tiempoAEjercerUnaTarea())/self.indiceDeResistencia()
+    method energiaQuePerderiaAlRealizarLaTarea(t) = self.recursosTotalesParaLaTarea(t)/self.indiceDeResistencia()
 
     method validarSiPuedeRealizarLaTarea(tar) {
         if(!self.condicionParaLaTarea(tar)){
@@ -24,6 +24,10 @@ class Persona{
     method indiceDeResistencia()
 
     method condicionParaLaTarea(tarea) = energia>=self.energiaQuePerderiaAlRealizarLaTarea(tarea)    // nombre general para agregar x cantidad de condiciones
+
+    
+
+    method recursosTotalesParaLaTarea(tar) = tar.cantRecursosQueProduce(self.tiempoAEjercerUnaTarea())
 }
 
 

@@ -1,14 +1,18 @@
 import imperio.*
 import habitantes.*
+import ayllus.*
+
+
+
 
 describe "Imperio Inca" {
+  const cusi = new Campesino(energia = 100, horasPorTarea = 4)
+  const tupac = new Elite(energia = 200)
+  const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
 
   test "siembra de papa" {
-    const siempraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
-    //siempraDePapa.esfuerzo(1.2)
-    
-    assert.equals(180, siempraDePapa.cantRecursosQueProduce(4))
-    assert.equals(420, siempraDePapa.cantRecursosQueProduce(10))
+    assert.equals(180, siembraDePapa.cantRecursosQueProduce(4))
+    assert.equals(420, siembraDePapa.cantRecursosQueProduce(10))
   }
 
   test "siembra de maiz en terraza" {
@@ -30,8 +34,6 @@ describe "Imperio Inca" {
   }
 
   test "Cusi como campesino" {
-    const cusi = new Campesino(energia = 100, horasPorTarea = 4)
-    const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
     const rutaTamboCentral = new TareaDeMensajeria()
 
     cusi.realizarTarea(siembraDePapa)
@@ -43,15 +45,13 @@ describe "Imperio Inca" {
   }
 
   test "Cusi no work" {
-    const cusi = new Campesino(energia = 15, horasPorTarea = 4)
-    const siembraDePapa = new SiembraEnElValle(esfuerzo = 1.2)
+    const cusi2 = new Campesino(energia = 15, horasPorTarea = 4)
 
-    assert.throwsException({cusi.realizarTarea(siembraDePapa)})
-    assert.equals(15, cusi.energia())
+    assert.throwsException({cusi2.realizarTarea(siembraDePapa)})
+    assert.equals(15, cusi2.energia())
   }
 
   test "Tupac como elite" {
-    const tupac = new Elite(energia = 200)
     const siembraDeMaizEnTerrazas = new SiembraEnTerrazas(esfuerzo = 1.5)
     const caminoDelSapaInca = new TareaDeMensajeImperial()
 
@@ -61,5 +61,10 @@ describe "Imperio Inca" {
     tupac.energia(200)
     tupac.realizarTarea(caminoDelSapaInca)
     assert.equals(137.5, tupac.energia())
+  }
+
+  test "Ayllu Real: mejor colca, colcas suaves y tareas exigentes" {
+    // no hay ninguna tarea en los enunciados para la construccion de cosas :/
+    assert.that(true)
   }
 }
